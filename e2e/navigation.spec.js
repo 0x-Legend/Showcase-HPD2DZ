@@ -12,7 +12,7 @@ const links = [
 ]
 
 /**
- * npx playwright test Navigation.spec.ts
+ * npx playwright test Navigation.spec.js
  * 1. Navigation > Desktop Sidebar
  * 2. Navigation > Mobile Navbar
  */
@@ -32,6 +32,9 @@ test.describe('Navigation', () => {
     await page.close()
   })
 
+  /**
+   * Test desktop navigation
+   */
   test('Desktop Sidebar', async () => {
     for (const link of links) {
       await page.click(`#${link.selector}`)
@@ -42,6 +45,9 @@ test.describe('Navigation', () => {
     }
   })
 
+  /**
+   * Test mobile navigation by shrinking the viewport width
+   */
   test('Mobile Navbar', async () => {
     for (const link of links) {
       await page.goto(`${url}account`)

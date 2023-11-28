@@ -4,7 +4,7 @@ const url = 'https://tradeloop-git-testing-cs3150-tradeloop.vercel.app/'
 // const url = 'http://localhost:3000/'
 
 /**
- * npx playwright test account.spec.ts
+ * npx playwright test account.spec.js
  * 1. Account > Profile Tab > Data Loaded
  * 2. Account > Profile Tab > Change Username
  * 3. Account > API Tab > Data Loaded
@@ -28,6 +28,10 @@ test.describe('Account', () => {
   })
 
   test.describe('Profile Tab', () => {
+    /**
+     * Test if user data is loaded in the profile tab, specifically
+     * the user's email
+     */
     test('Data Loaded', async () => {
       await page.goto(`${url}account`)
 
@@ -41,6 +45,10 @@ test.describe('Account', () => {
       )
     })
 
+    /**
+     * Change the user's username and validate the change from UI
+     * feedback and also after page reload
+     */
     test('Change Username', async () => {
       await page.goto(`${url}account`) // Replace with your page URL
 
@@ -63,6 +71,10 @@ test.describe('Account', () => {
   })
 
   test.describe('API Tab', () => {
+    /**
+     * Test if user data is loaded in the API tab, specifically
+     * info regarding the user's connected exchange account
+     */
     test('Data Loaded', async () => {
       await page.goto(`${url}account`)
 
@@ -72,6 +84,9 @@ test.describe('Account', () => {
       expect(page.locator('text=ajay02'))
     })
 
+    /**
+     * Test empty and invalid input in the API form
+     */
     test('API Form', async () => {
       await page.goto(`${url}account`)
 
@@ -108,6 +123,10 @@ test.describe('Account', () => {
       expect(page.locator('text=API check failed. API key is invalid'))
     })
 
+    /**
+     * Test refresh exchange button network request
+     * and that it refreshes the specific exchange instead of something else
+     */
     test('Refresh Exchange Account', async () => {
       await page.goto(`${url}account`)
 
@@ -122,6 +141,7 @@ test.describe('Account', () => {
 
       const request = await requestPromise
       expect(request).toBeDefined()
+      expect(page.locator('text=TEST: Found 0 new executions for ajay02'))
     })
   })
 })

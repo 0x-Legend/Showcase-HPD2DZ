@@ -4,7 +4,7 @@ const url = 'https://tradeloop-git-testing-cs3150-tradeloop.vercel.app/'
 // const url = 'http://localhost:3000/'
 
 /**
- * npx playwright test chat.spec.ts
+ * npx playwright test chat.spec.js
  * 1. Chat > New Chat
  * 2. Chat > Input Shortcuts
  * 3. Chat > Send Message
@@ -30,12 +30,19 @@ test.describe('Account', () => {
     await page.close()
   })
 
+  /**
+   * Test empty chat page component
+   */
   test('New Chat', async () => {
     await page.goto(`${url}chat`)
 
     expect(page.locator('text=Welcome to Loop AI Analytics!'))
   })
 
+  /**
+   * Test all input shortcuts work by validating their
+   * presence in the textarea after click
+   */
   test('Input Shortcuts', async () => {
     await page.goto(`${url}chat`)
 
@@ -60,6 +67,9 @@ test.describe('Account', () => {
     expect(textareaValue3).toBe('What is my most traded coin?')
   })
 
+  /**
+   * Test message being sent through network request to specific api route
+   */
   test('Send Message', async () => {
     await page.goto(`${url}chat`)
 
@@ -75,6 +85,10 @@ test.describe('Account', () => {
     expect(request).toBeDefined()
   })
 
+  /**
+   * Test share functionality by testing if link is copied to
+   * clipboard, and also verifying the link by navigating to it
+   */
   test('Share Messages', async () => {
     const requestPromise = page.waitForRequest(
       (request) =>

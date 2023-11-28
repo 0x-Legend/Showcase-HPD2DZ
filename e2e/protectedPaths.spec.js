@@ -4,7 +4,7 @@ const url = 'https://tradeloop-git-testing-cs3150-tradeloop.vercel.app/'
 // const url = 'http://localhost:3000/'
 
 /**
- * npx playwright test protectedPaths.spec.ts
+ * npx playwright test protectedPaths.spec.js
  * 1. Protected Paths > Unauthenticated > Protected Paths Redirect to /signin
  * 2. Protected Paths > Authenticated > Protected Paths are accessible
  */
@@ -18,6 +18,9 @@ test.describe('Protected Paths', () => {
     'chat'
   ]
 
+  /**
+   * Test to ensure unauthenticated users can't access protected pages
+   */
   test.describe('Unauthenticated', () => {
     test(`Protected Paths Redirect to /signin`, async ({ page }) => {
       for (const path of protectedPaths) {
@@ -43,6 +46,10 @@ test.describe('Protected Paths', () => {
       await page.close()
     })
 
+    /**
+     * Test ensures authenticated users can access protected pages
+     * and also that they can't access the signin page
+     */
     test(`Protected Paths are accessible`, async () => {
       for (const path of protectedPaths) {
         await page.goto(`${url + path}`)

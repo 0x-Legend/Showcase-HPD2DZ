@@ -4,7 +4,7 @@ const url = 'https://tradeloop-git-testing-cs3150-tradeloop.vercel.app/'
 // const url = 'http://localhost:3000/'
 
 /**
- * npx playwright test userMenu.spec.ts
+ * npx playwright test userMenu.spec.js
  * 1. User Menu > Navigated to /account
  * 2. User Menu > Light Mode (& Persist)
  * 3. User Menu > Dark Mode (& Persist)
@@ -26,6 +26,9 @@ test.describe('User Menu', () => {
     await page.close()
   })
 
+  /**
+   * Test settings button navigates to account page
+   */
   test(`Navigated to /account`, async () => {
     await page.setViewportSize({ width: 800, height: 800 })
 
@@ -38,42 +41,41 @@ test.describe('User Menu', () => {
     await expect(page).toHaveURL(`${url}account`)
   })
 
+  /**
+   * Test light mode setting change is persisted using html class
+   */
   test(`Light Mode (& Persist)`, async () => {
     await page.goto(`${url}overview`)
 
     await page.locator('id=userNav').first().click()
-
     await page.locator('id=theme').first().click()
 
     await page.locator('id=lightmode').first().click()
-
-    // Check that the 'dark' class is not present on the html element
     await expect(page.locator('html')).not.toHaveClass(/dark/)
 
     await page.reload()
-
-    // Check that the 'dark' class is not present on the html element
     await expect(page.locator('html')).not.toHaveClass(/dark/)
   })
 
+  /**
+   * Test dark mode setting change is persisted using html class
+   */
   test(`Dark Mode (& Persist)`, async () => {
     await page.goto(`${url}overview`)
 
     await page.locator('id=userNav').first().click()
-
     await page.locator('id=theme').first().click()
 
     await page.locator('id=darkmode').first().click()
-
-    // Check that the 'dark' class is present on the html element
     await expect(page.locator('html')).toHaveClass(/dark/)
 
     await page.reload()
-
-    // Check that the 'dark' class is present on the html element
     await expect(page.locator('html')).toHaveClass(/dark/)
   })
 
+  /**
+   * Test user sign out works properly and redirects back to sign in page
+   */
   test(`Sign Out`, async () => {
     await page.goto(`${url}overview`)
 

@@ -4,11 +4,14 @@ const url = 'https://tradeloop-git-testing-cs3150-tradeloop.vercel.app/'
 // const url = 'http://localhost:3000/'
 
 /**
- * npx playwright test signin.spec.ts
+ * npx playwright test signin.spec.js
  * 1. Sign In > Magic Link
  * 2. Sign In > Email & Password
  */
 test.describe('Sign In', () => {
+  /**
+   * Test passwordless login using invalid input and valid input
+   */
   test('Magic Link', async ({ page }) => {
     await page.goto(`${url}signin`)
 
@@ -25,6 +28,9 @@ test.describe('Sign In', () => {
     expect(page.locator('text=Check your inbox'))
   })
 
+  /**
+   * Test traditional login with invalid credentials and valid credentials
+   */
   test('Email & Password', async ({ page }) => {
     await page.goto(`${url}signin/admin`)
 
